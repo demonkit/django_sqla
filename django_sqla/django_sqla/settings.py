@@ -1,6 +1,8 @@
 # Django settings for django_sqla project.
 import os
 
+import sqlalchemy, sqlalchemy.orm
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,6 +13,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 DATABASE_ENGINE = "mysql://root:root@localhost/django_sqla"
+
+engine = sqlalchemy.create_engine(DATABASE_ENGINE, echo=True)
+Session = sqlalchemy.orm.sessionmaker(bind=engine)
+print Session
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -100,6 +106,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'middleware.db.MySQLAlchemySessionMiddleware',
     #'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
