@@ -10,7 +10,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-DATABASE_ENGINE = "mysql://root:root@localhost"
+DATABASE_ENGINE = "mysql://root:root@localhost/django_sqla"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -55,7 +55,9 @@ USE_TZ = True
 MEDIA_ROOT = ''
 
 ROOT_PATH = os.path.dirname(__file__)
-TEMPLATES_DIRS = (os.path.join(ROOT_PATH, 'templates'), )
+TEMPLATES_DIRS = (
+    os.path.join(ROOT_PATH, 'templates').replace('\\', '/'),
+)
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"

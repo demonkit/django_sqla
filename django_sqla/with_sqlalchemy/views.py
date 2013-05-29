@@ -8,7 +8,7 @@ from models import Base, Language
 
 
 
-engine = sqlalchemy.create_engine(settings.DATABASE_ENGINE)
+engine = sqlalchemy.create_engine(settings.DATABASE_ENGINE, echo=True)
 Session = sqlalchemy.orm.sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)
@@ -29,5 +29,5 @@ def index(request):
     if is_empty():
         populate()
     langs = session.query(Language).all()
-    return render_to_response('with_sqlalchemy/index.html',
+    return render_to_response('with_sqlchemy.html',
             {'langs': langs})
