@@ -14,9 +14,9 @@ ADMINS = (
 MANAGERS = ADMINS
 DATABASE_ENGINE = "mysql://root:root@localhost/django_sqla"
 
-engine = sqlalchemy.create_engine(DATABASE_ENGINE, echo=True)
+engine = sqlalchemy.create_engine(DATABASE_ENGINE)
 Session = sqlalchemy.orm.sessionmaker(bind=engine)
-print Session
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
