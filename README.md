@@ -1,7 +1,8 @@
-django_sqla
+framework_test
 ===========
 
-A test project of django using sqlalchemy as the orm framework.
+A test project of python framework test.
 
-Django has its own database orm strategy, but we all know sqlalchemy is a better framework,
-I just want to use it in django.
+Now we have:
+my_sqlalchemy:    a test of sqlalchemy
+django_sqlchemy:    a test of django with sqlalchemy
