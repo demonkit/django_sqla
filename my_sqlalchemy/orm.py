@@ -80,4 +80,3 @@ for instance in session.query(User).order_by(User.id):
 # count
 print session.query(User).filter(User.name.like("%ed")).count()
 
-# TODO
