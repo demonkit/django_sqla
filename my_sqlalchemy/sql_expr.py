@@ -24,7 +24,7 @@ metadata.create_all(engine)
 
 
 conn = engine.connect()
-'''
+
 # unusually used way
 ins1 = users.insert().values(name='jack', fullname='Jack Jones')
 print str(ins1)
@@ -48,7 +48,7 @@ conn.execute(addresses.insert(), [
     {'user_id': 2, 'email_address': 'www@www.org'},
     {'user_id': 2, 'email_address': 'wendy@msn.com'},
 ])
-'''
+
 
 # select
 s = select([users])

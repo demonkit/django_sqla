@@ -77,6 +77,61 @@ print session.query(User).filter(User.name.in_(['ed', 'fakeuser'])).all()
 for instance in session.query(User).order_by(User.id):
     print instance.name, instance.fullname
 
+# query filter operations
+# equals: ==, not equals: !=, like,
+# in: in_, not in: ~..in_, is null: ==None, is not null: != None,
+# and: and_, or match
+
 # count
 print session.query(User).filter(User.name.like("%ed")).count()
 
+
+# literal sql
+for user in session.query(User).filter("id<1234").order_by("id").all():
+    print user.name
+print
+
+
+# from statement
+print session.query("id", "name", "thenumber12").\
+        from_statement("select id, name, 12 as thenumber12 "
+                "from users where name=:name").params(name="ed").all()
+print
+
+
+# relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
+
+class Address(Base):
+    __tablename__ = 'addresses'
+    id = Column(Integer, primary_key=True)
+    email_address = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    # we can use User.addresses to get a user's address collection
+    user = relationship("User", backref=backref('addresses', order_by=id))
+    # or we can put this code below in the class User:
+    # addresses = relationship("Address", order_by="Address.id", backref="user")
+
+    def __init__(self, email_address):
+        self.email_address = email_address
+
+    def __repr__(self):
+        return "<Address('%s')>" % self.email_address
+
+# create the new table
+Base.metadata.create_all(engine)
+
+
+# insert some records
+jack = User('jack', 'Jack Bean', 'gkshk')
+print jack.addresses
+
+jack.addresses = [
+        Address(email_address="jack@google.com"),
+        Address(email_address="jack@yahoo.com"),
+    ]
+# add
+session.add(jack)
+session.commit()
