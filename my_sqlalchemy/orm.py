@@ -27,7 +27,7 @@ class User(Base):
         self.password = password
 
     def __repr__(self):
-        return u"<User ('%s', '%', '%s')>" % (self.name, self.fullname, self.password)
+        return u"<User ('%s', '%s', '%s')>" % (self.name, self.fullname, self.password)
 
 
 Base.metadata.create_all(engine)
@@ -37,9 +37,14 @@ print ed_user.name, ed_user.password, ed_user.id
 
 # session
 Session = sessionmaker(bind=engine)
+session = Session()
 # or
+'''
 Sesstion = sessionmaker()
 Session.configure(bind=engine)
+session = Session()
+'''
+
 
 # add new object
 # ed_user = User('ed', 'Ed Jones', 'edpassword')
@@ -106,7 +111,7 @@ from sqlalchemy.orm import relationship, backref
 class Address(Base):
     __tablename__ = 'addresses'
     id = Column(Integer, primary_key=True)
-    email_address = Column(String, nullable=False)
+    email_address = Column(String(100), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
 
     # we can use User.addresses to get a user's address collection
