@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django_sqla import settings
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -18,3 +19,6 @@ class Language(Base):
 
     def __repr__(self):
         return u"Language(%s, %s)" % (self.name, self.extension)
+
+
+Base.metadata.create_all(settings.engine)

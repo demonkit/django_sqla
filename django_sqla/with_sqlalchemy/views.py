@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.conf import settings
 from django.shortcuts import render_to_response
 
 from models import Base, Language
@@ -12,6 +11,7 @@ def is_empty(request):
 
 
 def populate(request):
+    session = request.db_session
     new_langs = [Language('Python','py'),Language('Ruby', 'rb'),
                 Language('Common Lisp', 'lisp'),Language('Objective-C', 'm')]
     session.add_all(new_langs)

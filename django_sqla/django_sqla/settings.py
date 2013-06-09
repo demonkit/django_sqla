@@ -14,7 +14,7 @@ ADMINS = (
 MANAGERS = ADMINS
 DATABASE_ENGINE = "mysql://root:root@localhost/django_sqla"
 
-engine = sqlalchemy.create_engine(DATABASE_ENGINE)
+engine = sqlalchemy.create_engine(DATABASE_ENGINE, echo=True)
 Session = sqlalchemy.orm.sessionmaker(bind=engine)
 
 DATABASES = {
