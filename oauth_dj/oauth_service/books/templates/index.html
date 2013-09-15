@@ -1,0 +1,8 @@
+{{ user.username }}<br>
+<a href="{% url accounts.views.logout_page %}">logout</a>
+<hr>
+{% for book in books %}
+    {{ book.title }}<br>
+{% endfor %}
+
+
