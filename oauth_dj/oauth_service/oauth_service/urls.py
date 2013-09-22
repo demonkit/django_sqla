@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^$', "books.views.index"),
     url(r'^book/', include("books.urls")),
     url(r'^accounts/', include("accounts.urls")),
+    url(r'^oauth2/', include("provider.urls")),
 )

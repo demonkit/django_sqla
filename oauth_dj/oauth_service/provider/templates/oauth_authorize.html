@@ -1,0 +1,18 @@
+Hello, {{ user }},<br>
+Do you acknowledge your data to third party application?
+<form method='post' action="{% url provider.views.authorize %}">
+    <div style="display: none">
+        {{ form.response_type }}
+        {{ form.client_id }}
+        {{ form.redirect_uri }}
+    </div>
+    <input type="submit" id="true" value="Yes">
+    <br>
+    <input type="button" id="false" value="No">
+</form>
+
+<script>
+    function to_index() {
+        document.loaction.href = "{% url books.views.index %}"
+    }
+</script>

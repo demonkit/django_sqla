@@ -41,12 +41,27 @@ class AccessToken(models.Model):
     client = models.ForeignKey(Client)
     token = models.CharField(max_length=32)
     expires = models.DateTimeField()
-    scope = models.IntegerField(default=2, choices=[2, 4, 6])
-
-    def __unicode__(self):
-        return self.token
+    scope = models.IntegerField(default=2, choices=((2, 2), (4, 4), (6, 6)))
 
     def __init__(self, *args, **kwargs):
         super(AccessToken, self).__init__(*args, **kwargs)
         self.token = gen_token(32)
         self.expires = datetime.now() + timedelta(days=15)
+
+    def __unicode__(self):
+        return self.token
+
+
+class RefreshToken(models.Model):
+    user = models.ForeignKey(User)
+    client = models.ForeignKey(Client)
+    token = models.CharField(max_length=32)
+    access_token = models.OneToOneField(AccessToken, related_name='refresh_token')
+    expires = models.BooleanField(default=False)
+
+    def __init__(self, *args, **kwargs):
+        super(RefreshToken, self).__init__(*args, **kwargs)
+        self.token = gen_token(32)
+
+    def __unicode(self):
+        return self.token

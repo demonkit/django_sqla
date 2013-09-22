@@ -15,7 +15,7 @@ DATABASES = {
         'NAME': 'oauth_service',
         'USER': 'root',
         'PASSWORD': 'nsfocus',
-        'HOST': '10.7.201.88',
+        'HOST': '',
         'PORT': '',
     }
 }
@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'accounts',
     'books',
+    'provider',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
