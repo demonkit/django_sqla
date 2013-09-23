@@ -1,4 +1,4 @@
-# Django settings for oauth_service project.
+# Django settings for oauth_client project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oauth_service',
+        'NAME': 'oauth_client',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '',
@@ -82,7 +82,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '^@kro9*t*o&amp;!lea3qdz+!^ud2a@u+jshl&amp;t@e*8ami4f)2n+36'
+SECRET_KEY = 'tbaept0xc9dbre#@+w+174^bf=____6%)b^!uye(8%)v&amp;6w3lg'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -94,17 +94,17 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'oauth_service.urls'
+ROOT_URLCONF = 'oauth_client.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'oauth_service.wsgi.application'
+WSGI_APPLICATION = 'oauth_client.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -113,27 +113,18 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    #'django.contrib.auth',
+    #'django.contrib.contenttypes',
+    #'django.contrib.sessions',
+    #'django.contrib.sites',
+    #'django.contrib.messages',
+    #'django.contrib.staticfiles',
     'accounts',
-    'books',
-    'provider',
     # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
+    # 'django.contrib.admindocs',
 )
-
-TEMPLATE_CONTENT_PROCESSORS = (
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
-)
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

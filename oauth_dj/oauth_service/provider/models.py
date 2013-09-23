@@ -15,7 +15,7 @@ class Client(models.Model):
     client_secret = models.CharField(max_length=32)
     client_type = models.CharField(max_length=20)
 
-    def __unicode(self):
+    def __unicode__(self):
         return "%s %s" % (self.url, self.redirect_uri)
 
 

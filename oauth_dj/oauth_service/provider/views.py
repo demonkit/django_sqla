@@ -44,21 +44,18 @@ def oauth_login(request):
 
 @oauth_login_required
 def authorize(request):
-    if request.method == 'POST':
-        response_type = request.POST.get('response_type', None)
-        client_id = request.POST.get('client_id', None)
-        redirect_uri = request.POST.get('redirect_uri', None)
+    response_type = request.REQUEST.get('response_type', None)
+    client_id = request.REQUEST.get('client_id', None)
+    redirect_uri = request.REQUEST.get('redirect_uri', None)
 
-        try:
-            client = Client.objects.get(client_id=client_id, redirect_uri=redirect_uri)
-        except:
-            return HttpResponseBadRequest("client id or redirect uri not matched")
+    try:
+        client = Client.objects.get(client_id=client_id, redirect_uri=redirect_uri)
+    except:
+        return HttpResponseBadRequest("client id or redirect uri not matched")
 
-        grant, created = Grant.objects.get_or_create(user=request.user, client=client, redirect_uri=redirect_uri)
-        redirect_to = urlparse.urljoin(redirect_uri, "?code=" + grant.token)
-        return HttpResponseRedirect(redirect_to)
-    else:
-        return HttpResponseBadRequest("request method error, POST only")
+    grant, created = Grant.objects.get_or_create(user=request.user, client=client, redirect_uri=redirect_uri)
+    redirect_to = urlparse.urljoin(redirect_uri, "?code=" + grant.token)
+    return HttpResponseRedirect(redirect_to)
 
 
 def exchange_access_token(request):
