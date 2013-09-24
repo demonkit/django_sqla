@@ -26,11 +26,10 @@ def oauth2_callback(request):
     req = urllib2.Request(conf.OAUTH2_ACCESS_TOKEN_URL, data=data)
     resp = urllib2.urlopen(req)
     result = json.loads(resp.read())
-    customer = Customer(username=result['username'],
+    customer, create = Customer.objects.get_or_create(username=result['username'],
                         token=result['access_token'],
                         refresh_token=result['refresh_token'],
                         expireds=result['expires_in'],
-                        customer_info=json.dumps({})
                 )
     customer.save()
     return redirect("/accounts/customer/?id=" + str(customer.pk))

@@ -70,9 +70,11 @@ def exchange_access_token(request):
     if not Client.objects.filter(client_id=client_id, client_secret=client_secret).exists():
         return HttpResponseBadRequest("client auth failed")
 
-    access_token, create = AccessToken.objects.get_or_create(user=grants[0].user, client=clients[0])
+    access_token = AccessToken(user=grants[0].user, client=clients[0])
+    access_token.save()
 
-    refresh_token, create = RefreshToken.objects.get_or_create(user=grants[0].user, client=clients[0], access_token=access_token)
+    refresh_token = RefreshToken(user=grants[0].user, client=clients[0], access_token=access_token)
+    refresh_token.save()
     #rm the code
     grants.delete()
     return HttpResponse(json.dumps({

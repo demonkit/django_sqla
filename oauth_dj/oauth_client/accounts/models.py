@@ -10,4 +10,4 @@ class Customer(models.Model):
     expireds = models.DateTimeField()
     refresh_token = models.CharField(max_length=200)
     
-    customer_info = models.TextField()
+    customer_info = models.TextField(blank=True, null=True)
