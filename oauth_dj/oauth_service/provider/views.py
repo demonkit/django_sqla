@@ -53,38 +53,35 @@ def authorize(request):
     except:
         return HttpResponseBadRequest("client id or redirect uri not matched")
 
-    grant, created = Grant.objects.get_or_create(user=request.user, client=client, redirect_uri=redirect_uri)
+    grant = Grant.objects.create(user=request.user, client=client, redirect_uri=redirect_uri)
     redirect_to = urlparse.urljoin(redirect_uri, "?code=" + grant.token)
     return HttpResponseRedirect(redirect_to)
 
 
 def exchange_access_token(request):
-    if request.method == 'POST':
-        code = request.POST.get('code', None)
-        client_id = request.POST.get('client_id', None)
-        client_secret = request.POST.get('client_secret', None)
+    code = request.REQUEST.get('code', None)
+    client_id = request.REQUEST.get('client_id', None)
+    client_secret = request.REQUEST.get('client_secret', None)
 
-        grants = Grant.objects.filter(token=code)
-        if not grants.exists():
-            return HttpResponseBadRequest("request error, code does not exist")
-        if Client.objects.filter(client_id=client_id, client_secret=client_secret):
-            return HttpResponseBadRequest("client auth failed")
+    grants = Grant.objects.filter(token=code)
+    if not grants.exists():
+        return HttpResponseBadRequest("request error, code does not exist")
+    clients =  Client.objects.filter(client_id=client_id, client_secret=client_secret)
+    if not Client.objects.filter(client_id=client_id, client_secret=client_secret).exists():
+        return HttpResponseBadRequest("client auth failed")
 
-        access_token = AccessToken(user=grants[0].user, client_id=client_id)
-        access_token.save()
+    access_token, create = AccessToken.objects.get_or_create(user=grants[0].user, client=clients[0])
 
-        refresh_token = RefreshToken(user=grants[0].user, client_id=client_id, access_token=access_token)
-        refresh_token.save()
-        #rm the code
-        grants.delete()
-        return HttpResponse(json.dumps({
-            "access_token": access_token.token,
-            "token_type": "read_books",
-            "expires_in": datetime.strftime(access_token.expires, "%Y-%m-%d %X"),
-            "refresh_token": refresh_token.token,
-        }))
-    else:
-        return HttpResponseBadRequest("request method error, POST only")
+    refresh_token, create = RefreshToken.objects.get_or_create(user=grants[0].user, client=clients[0], access_token=access_token)
+    #rm the code
+    grants.delete()
+    return HttpResponse(json.dumps({
+        "username": access_token.user.username,
+        "access_token": access_token.token,
+        "token_type": "read_books",
+        "expires_in": datetime.strftime(access_token.expires, "%Y-%m-%d %X"),
+        "refresh_token": refresh_token.token,
+    }))
 
 
 def get_related_book(request):
@@ -95,10 +92,10 @@ def get_related_book(request):
         except:
             return HttpResponseBadRequest("access token auth failed")
         user = token_obj.user
-        books = Book.objects.filter(user=user).values("title", "outline")
+        books = Book.objects.filter(users=user).values("title", "outline")
         return HttpResponse(json.dumps({
             "username": user.username,
-            "books": books
+            "books": list(books)
         }))
     else:
         return HttpResponseBadRequest("request method error, POST only")

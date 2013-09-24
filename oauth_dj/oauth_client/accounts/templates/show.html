@@ -1,0 +1,14 @@
+access_token: {{ access_token }}
+<br>
+<br>
+<hr>
+Hello, {{ info.username }}, you have books:
+<br>
+<br>
+{% for item in info.books %}
+Title: {{ item.title }}<br>
+Outline: {{ item.outline }}<br>
+<br>
+<br>
+<br>
+{% endfor %}
