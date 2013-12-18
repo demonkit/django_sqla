@@ -14,8 +14,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'oauth_client',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '',
+        'PASSWORD': 'nsfocus',
+        'HOST': '10.7.201.88',
         'PORT': '',
     }
 }
